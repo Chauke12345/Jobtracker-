@@ -1,0 +1,71 @@
+<style>
+    .delete-container {
+        max-width: 500px;
+        margin: 60px auto;
+        padding: 25px;
+        border: 1px solid #eee;
+        border-radius: 10px;
+        background: #fff5f5;
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+
+    .delete-container h2 {
+        color: #c0392b;
+        margin-bottom: 15px;
+    }
+
+    .delete-container p {
+        font-size: 16px;
+        margin-bottom: 25px;
+    }
+
+    .btn-group {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .btn-danger {
+        background: #e74c3c;
+        color: white;
+        padding: 10px 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .btn-danger:hover {
+        background: #c0392b;
+    }
+
+    .btn-cancel {
+        background: #bdc3c7;
+        color: black;
+        padding: 10px 16px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 14px;
+        display: inline-block;
+    }
+
+    .btn-cancel:hover {
+        background: #95a5a6;
+    }
+</style>
+
+<div class="delete-container">
+    <h2>Delete Job</h2>
+
+    <p>Are you sure you want to delete "<strong>{{ job }}</strong>"?</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="btn-group">
+            <button type="submit" class="btn-danger">Yes, Delete</button>
+            <a href="/jobs/" class="btn-cancel">Cancel</a>
+        </div>
+    </form>
+</div>

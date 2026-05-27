@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="min-h-screen bg-gray-100 p-6">
+
+    <!-- HEADER CARD -->
+    <div class="bg-white rounded-2xl shadow p-6 mb-6 flex justify-between items-center">
+
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800">Dashboard</h1>
+            <p class="text-gray-500 text-sm">Manage and track your job applications</p>
+        </div>
+
+        <a href="/jobs/add/"
+           class="px-5 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition">
+            + Add Job
+        </a>
+
+    </div>
+
+    <!-- STATS ROW -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+
+        <div class="bg-white rounded-xl p-5 shadow hover:shadow-md transition">
+            <p class="text-sm text-gray-500">Total Jobs</p>
+            <p class="text-2xl font-bold text-gray-800">{{ total_jobs }}</p>
+        </div>
+
+        <div class="bg-white rounded-xl p-5 shadow border-t-4 border-blue-500">
+            <p class="text-sm text-gray-500">Applied</p>
+            <p class="text-2xl font-bold text-blue-600">{{ applied_count }}</p>
+        </div>
+
+        <div class="bg-white rounded-xl p-5 shadow border-t-4 border-yellow-400">
+            <p class="text-sm text-gray-500">Interviews</p>
+            <p class="text-2xl font-bold text-yellow-600">{{ interview_count }}</p>
+        </div>
+
+        <div class="bg-white rounded-xl p-5 shadow border-t-4 border-green-500">
+            <p class="text-sm text-gray-500">Offers</p>
+            <p class="text-2xl font-bold text-green-600">{{ offer_count }}</p>
+        </div>
+
+    </div>
+
+    <!-- MAIN GRID -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- JOB LIST -->
+        <div class="lg:col-span-2 bg-white rounded-2xl shadow p-6">
+
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">Recent Applications</h2>
+                <span class="text-sm text-gray-400">{{ jobs|length }} jobs</span>
+            </div>
+
+            <div class="space-y-3">
+
+                {% for job in jobs %}
+                <div class="flex items-center justify-between p-4 rounded-xl border hover:bg-gray-50 transition">
+
+                    <div>
+                        <p class="font-semibold text-gray-800">{{ job.company }}</p>
+                        <p class="text-sm text-gray-500">{{ job.position }}</p>
+                    </div>
+
+                    <span class="text-xs font-medium px-3 py-1 rounded-full
+                        {% if job.status == 'applied' %}bg-blue-100 text-blue-700{% endif %}
+                        {% if job.status == 'interview' %}bg-yellow-100 text-yellow-700{% endif %}
+                        {% if job.status == 'offer' %}bg-green-100 text-green-700{% endif %}
+                        {% if job.status == 'rejected' %}bg-red-100 text-red-700{% endif %}
+                    ">
+                        {{ job.status|title }}
+                    </span>
+
+                </div>
+                {% empty %}
+                    <div class="text-center py-10 text-gray-500">
+                        No job applications yet.
+                    </div>
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="bg-white rounded-2xl shadow p-6 h-fit sticky top-6">
+
+            <h2 class="text-xl font-semibold mb-4">Productivity Tips</h2>
+
+            <div class="space-y-4">
+
+                <div class="p-4 bg-gray-50 rounded-xl">
+                    <p class="text-sm text-gray-700">📌 Apply to at least 5 jobs daily</p>
+                </div>
+
+                <div class="p-4 bg-gray-50 rounded-xl">
+                    <p class="text-sm text-gray-700">📊 Track responses within 48 hours</p>
+                </div>
+
+                <div class="p-4 bg-gray-50 rounded-xl">
+                    <p class="text-sm text-gray-700">🎯 Focus on quality applications</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

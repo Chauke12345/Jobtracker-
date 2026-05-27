@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="max-w-6xl mx-auto px-4 py-6">
+
+    <!-- HEADER -->
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">Dashboard</h1>
+
+        <a href="/jobs/add/"
+           class="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition">
+            + Add Job
+        </a>
+    </div>
+
+    <!-- STATS -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+
+        <div class="bg-white p-5 rounded-xl shadow">
+            <div class="text-gray-500 text-sm">Total Jobs</div>
+            <div class="text-2xl font-bold">{{ jobs|length }}</div>
+        </div>
+
+        <div class="bg-blue-50 p-5 rounded-xl shadow">
+            <div class="text-gray-500 text-sm">Applied</div>
+            <div class="text-2xl font-bold text-blue-600">{{ applied_count }}</div>
+        </div>
+
+        <div class="bg-yellow-50 p-5 rounded-xl shadow">
+            <div class="text-gray-500 text-sm">Interview</div>
+            <div class="text-2xl font-bold text-yellow-600">{{ interview_count }}</div>
+        </div>
+
+        <div class="bg-green-50 p-5 rounded-xl shadow">
+            <div class="text-gray-500 text-sm">Offers</div>
+            <div class="text-2xl font-bold text-green-600">{{ offer_count }}</div>
+        </div>
+
+    </div>
+
+    <!-- SEARCH + FILTER -->
+    <form method="GET" class="flex flex-col md:flex-row gap-3 mb-6">
+
+        <input type="text"
+               name="q"
+               value="{{ query }}"
+               placeholder="Search company or position..."
+               class="w-full md:w-1/2 px-4 py-2 border rounded-lg focus:ring">
+
+        <select name="status" class="px-4 py-2 border rounded-lg">
+            <option value="all">All</option>
+            <option value="applied">Applied</option>
+            <option value="interview">Interview</option>
+            <option value="offer">Offer</option>
+            <option value="rejected">Rejected</option>
+        </select>
+
+        <button class="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800">
+            Filter
+        </button>
+
+    </form>
+
+    <!-- JOB LIST -->
+    <div class="bg-white rounded-xl shadow overflow-hidden">
+
+        {% for job in jobs %}
+        <div class="flex justify-between items-start p-4 border-b hover:bg-gray-50">
+
+            <!-- LEFT -->
+            <div>
+
+                <div class="font-semibold text-gray-900 dark:text-white">
+                    {{ job.company }}
+                </div>
+
+                <div class="text-sm text-gray-500 dark:text-gray-300">
+                    {{ job.position }}
+                </div>
+
+                <!-- STATUS TIMELINE -->
+                <div class="mt-2 flex items-center gap-2 text-xs">
+
+                    <!-- APPLIED -->
+                    <div class="flex items-center gap-1">
+                        <div class="w-3 h-3 rounded-full
+                            {% if job.status == 'applied' or job.status == 'interview' or job.status == 'offer' %}
+                                bg-blue-500
+                            {% else %}
+                                bg-gray-300
+                            {% endif %}">
+                        </div>
+                        <span>Applied</span>
+                    </div>
+
+                    <div class="w-6 h-px bg-gray-300"></div>
+
+                    <!-- INTERVIEW -->
+                    <div class="flex items-center gap-1">
+                        <div class="w-3 h-3 rounded-full
+                            {% if job.status == 'interview' or job.status == 'offer' %}
+                                bg-yellow-500
+                            {% else %}
+                                bg-gray-300
+                            {% endif %}">
+                        </div>
+                        <span>Interview</span>
+                    </div>
+
+                    <div class="w-6 h-px bg-gray-300"></div>
+
+                    <!-- OFFER -->
+                    <div class="flex items-center gap-1">
+                        <div class="w-3 h-3 rounded-full
+                            {% if job.status == 'offer' %}
+                                bg-green-500
+                            {% else %}
+                                bg-gray-300
+                            {% endif %}">
+                        </div>
+                        <span>Offer</span>
+                    </div>
+
+                </div>
+
+                <div class="text-xs text-gray-400 mt-2">
+                    Applied: {{ job.applied_date|date:"M d, Y" }}
+                </div>
+
+            </div>
+
+            <!-- RIGHT -->
+            <div class="flex items-center gap-3">
+
+                <span class="text-xs px-2 py-1 rounded-full font-medium
+                    {% if job.status == 'applied' %}bg-blue-100 text-blue-600
+                    {% elif job.status == 'interview' %}bg-yellow-100 text-yellow-600
+                    {% elif job.status == 'offer' %}bg-green-100 text-green-600
+                    {% else %}bg-red-100 text-red-600
+                    {% endif %}">
+                    {{ job.status|title }}
+                </span>
+
+                <a href="/jobs/edit/{{ job.id }}/" class="text-blue-500 text-sm">Edit</a>
+                <a href="/jobs/delete/{{ job.id }}/" class="text-red-500 text-sm">Delete</a>
+
+            </div>
+
+        </div>
+        {% empty %}
+        <div class="p-6 text-gray-500">
+            No jobs yet.
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}
