@@ -10,7 +10,9 @@
         <!-- HEADER -->
         <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-10">
 
+            <!-- LEFT SIDE (TITLE + SUBTITLE + LOGOUT) -->
             <div>
+
                 <h1 class="text-4xl font-bold tracking-tight">
                     Dashboard
                 </h1>
@@ -18,8 +20,18 @@
                 <p class="text-gray-400 mt-2">
                     Track your job applications easily
                 </p>
+
+                <!-- LOGOUT (FIXED POSITION) -->
+                <form method="post" action="{% url 'logout' %}" class="mt-4">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                        Logout
+                    </button>
+                </form>
+
             </div>
 
+            <!-- RIGHT SIDE -->
             <a href="{% url 'job_create' %}"
                class="mt-5 md:mt-0 inline-flex items-center bg-indigo-600 hover:bg-indigo-500 transition px-5 py-3 rounded-xl font-medium shadow-lg">
                 + Add Job
