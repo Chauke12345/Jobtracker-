@@ -2,14 +2,17 @@
 
 {% block content %}
 
-<div class="max-w-6xl mx-auto px-4 py-8">
+<!-- FULL PAGE BACKGROUND (FIXES WHITE BLANK LOOK) -->
+<div class="min-h-screen bg-gray-100">
+
+<div class="max-w-6xl mx-auto px-4 py-10">
 
     <!-- HEADER -->
-    <div class="flex justify-between items-center mb-8">
+    <div class="flex justify-between items-start mb-8">
 
         <div>
             <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
-            <p class="text-sm text-gray-500">Track your job applications</p>
+            <p class="text-sm text-gray-600">Track your job applications</p>
         </div>
 
         <a href="{% url 'job_create' %}"
@@ -20,40 +23,40 @@
     </div>
 
     <!-- STATS -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
 
-        <div class="bg-white p-5 rounded-xl shadow-sm border">
+        <div class="bg-white p-6 rounded-xl shadow border">
             <p class="text-sm text-gray-500">Total Jobs</p>
-            <p class="text-2xl font-bold">{{ total_jobs }}</p>
+            <p class="text-3xl font-bold text-gray-900">{{ total_jobs }}</p>
         </div>
 
-        <div class="bg-blue-50 p-5 rounded-xl border">
+        <div class="bg-blue-50 p-6 rounded-xl border">
             <p class="text-sm text-gray-500">Applied</p>
-            <p class="text-2xl font-bold text-blue-600">{{ applied_count }}</p>
+            <p class="text-3xl font-bold text-blue-600">{{ applied_count }}</p>
         </div>
 
-        <div class="bg-yellow-50 p-5 rounded-xl border">
+        <div class="bg-yellow-50 p-6 rounded-xl border">
             <p class="text-sm text-gray-500">Interview</p>
-            <p class="text-2xl font-bold text-yellow-600">{{ interview_count }}</p>
+            <p class="text-3xl font-bold text-yellow-600">{{ interview_count }}</p>
         </div>
 
-        <div class="bg-green-50 p-5 rounded-xl border">
+        <div class="bg-green-50 p-6 rounded-xl border">
             <p class="text-sm text-gray-500">Offers</p>
-            <p class="text-2xl font-bold text-green-600">{{ offer_count }}</p>
+            <p class="text-3xl font-bold text-green-600">{{ offer_count }}</p>
         </div>
 
     </div>
 
     <!-- SEARCH + FILTER -->
-    <form method="GET" class="flex flex-col md:flex-row gap-3 mb-8">
+    <form method="GET" class="flex flex-col md:flex-row gap-4 mb-10">
 
         <input type="text"
                name="q"
                value="{{ query }}"
                placeholder="Search company or position..."
-               class="w-full md:w-1/2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black">
+               class="w-full md:w-1/2 px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black">
 
-        <select name="status" class="px-4 py-2 border rounded-lg">
+        <select name="status" class="px-4 py-3 border rounded-lg">
             <option value="all">All</option>
             <option value="applied">Applied</option>
             <option value="interview">Interview</option>
@@ -61,29 +64,35 @@
             <option value="rejected">Rejected</option>
         </select>
 
-        <button class="bg-black text-white px-5 py-2 rounded-lg hover:bg-gray-800">
+        <button class="bg-black text-white px-5 py-3 rounded-lg hover:bg-gray-800">
             Filter
         </button>
 
     </form>
 
     <!-- JOB LIST -->
-    <div class="bg-white rounded-xl shadow-sm border divide-y">
+    <div class="bg-white rounded-xl shadow border divide-y">
 
         {% for job in jobs %}
         <div class="flex flex-col md:flex-row md:justify-between md:items-center p-5 hover:bg-gray-50">
 
             <!-- LEFT -->
             <div>
-                <h3 class="font-semibold text-gray-900">{{ job.company }}</h3>
-                <p class="text-sm text-gray-500">{{ job.position }}</p>
-                <p class="text-xs text-gray-400 mt-2">
+                <h3 class="font-semibold text-gray-900 text-lg">
+                    {{ job.company }}
+                </h3>
+
+                <p class="text-sm text-gray-500">
+                    {{ job.position }}
+                </p>
+
+                <p class="text-xs text-gray-400 mt-1">
                     Applied: {{ job.applied_date|date:"M d, Y" }}
                 </p>
             </div>
 
             <!-- RIGHT -->
-            <div class="flex items-center gap-3 mt-3 md:mt-0">
+            <div class="flex items-center gap-3 mt-4 md:mt-0">
 
                 <span class="text-xs px-3 py-1 rounded-full font-medium
                     {% if job.status == 'applied' %}bg-blue-100 text-blue-600
@@ -94,11 +103,11 @@
                     {{ job.status|title }}
                 </span>
 
-                <a href="{% url 'job_update' job.id %}" class="text-blue-500 text-sm hover:underline">
+                <a href="{% url 'job_update' job.id %}" class="text-blue-600 text-sm hover:underline">
                     Edit
                 </a>
 
-                <a href="{% url 'job_delete' job.id %}" class="text-red-500 text-sm hover:underline">
+                <a href="{% url 'job_delete' job.id %}" class="text-red-600 text-sm hover:underline">
                     Delete
                 </a>
 
@@ -107,12 +116,14 @@
         </div>
 
         {% empty %}
-        <div class="p-6 text-gray-500">
+        <div class="p-10 text-gray-500 text-center">
             No jobs yet. Click "Add Job" to get started.
         </div>
         {% endfor %}
 
     </div>
+
+</div>
 
 </div>
 
