@@ -1,5 +1,5 @@
 """
-Django settings for jobtrackr project.
+Django settings for jobtrackr project (Railway Production Ready)
 """
 
 from pathlib import Path
@@ -17,11 +17,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "unsafe-dev-key")
 
-DEBUG = os.environ.get("DEBUG", "False") == "True"
+DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = os.environ.get(
     "ALLOWED_HOSTS",
-    ".onrender.com,localhost,127.0.0.1"
+    ".railway.app,localhost,127.0.0.1"
 ).split(",")
 
 # =========================
@@ -83,7 +83,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'jobtrackr.wsgi.application'
 
 # =========================
-# DATABASE
+# DATABASE (Railway Postgres ready)
 # =========================
 
 DATABASES = {
@@ -114,18 +114,18 @@ USE_I18N = True
 USE_TZ = True
 
 # =========================
-# STATIC FILES (RENDER + WHITENOISE READY)
+# STATIC FILES (Railway + WhiteNoise)
 # =========================
 
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-STATICFILES_DIRS = []  # keep empty unless you actually have a /static folder
+STATICFILES_DIRS = []
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # =========================
-# MEDIA FILES (optional)
+# MEDIA FILES
 # =========================
 
 MEDIA_URL = "/media/"
@@ -136,3 +136,14 @@ MEDIA_ROOT = BASE_DIR / "media"
 # =========================
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# =========================
+# SECURITY (PRODUCTION ONLY)
+# =========================
+
+if not DEBUG:
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True

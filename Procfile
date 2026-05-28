@@ -1,1 +1,1 @@
-gunicorn jobtrackr.wsgi:application
+web: gunicorn jobtrackr.wsgi:application --bind 0.0.0.0:$PORT
