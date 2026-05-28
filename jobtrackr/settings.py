@@ -147,5 +147,16 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
 
-    SECURE_SSL_REDIRECT = False  # ❌ IMPORTANT FIX
+    # Railway already handles HTTPS, so keep this OFF
+    SECURE_SSL_REDIRECT = False
+
+    # Required for Railway proxy
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
+# =========================
+# AUTH REDIRECTS
+# =========================
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "job_list"
+LOGOUT_REDIRECT_URL = "login"
