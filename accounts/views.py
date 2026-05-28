@@ -10,27 +10,26 @@ from django.contrib import messages
 def register(request):
     # Handle form submission (POST request)
     if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
+        username = request.POST.get("username")
+        password = request.POST.get("password")
 
         # Check if username already exists
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists")
             return redirect("register")
 
-        # Create new user in database
+        # Create new user
         user = User.objects.create_user(username=username, password=password)
         user.save()
 
-        # Automatically log the user in after registration
+        # Auto-login user after registration
         login(request, user)
 
-        # Redirect to home page after successful registration
-        return redirect("home")
+        # Redirect to dashboard (IMPORTANT FIX)
+        return redirect("job_list")
 
-    # If GET request, show registration page
+    # GET request → show registration page
     return render(request, "accounts/register.html")
-
 
 # =========================
 # USER LOGIN VIEW
@@ -47,7 +46,7 @@ def login_view(request):
         # If authentication successful
         if user is not None:
             login(request, user)
-            return redirect("home")
+            return redirect("job_list")
 
         # If authentication fails
         else:
