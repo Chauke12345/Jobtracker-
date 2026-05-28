@@ -120,15 +120,12 @@ USE_TZ = True
 
 # =========================
 # STATIC FILES (RENDER READY)
-# =========================
+# =========================STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = []  # IMPORTANT: prevents missing-folder crash
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 
 # =========================
 # DEFAULT AUTO FIELD
