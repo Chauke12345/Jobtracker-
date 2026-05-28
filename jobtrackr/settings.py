@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
+print("SETTINGS FILE LOADED")
+print("STATIC_ROOT =", BASE_DIR / "staticfiles")
 
 from pathlib import Path
 import os
